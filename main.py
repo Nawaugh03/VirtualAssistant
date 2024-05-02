@@ -61,7 +61,7 @@ def RuninBackGrounds(win):
             n.isidle=False
 
         #controller.timer=updatetimer()
-        print(int(time.time()-controller.activityTimer))
+        #print(int(time.time()-controller.activityTimer))
         if (controller.activityInterval==int(time.time()-controller.activityTimer)):
             controller.Nodeactivity=False
             controller.activityTimer=updatetimer()
@@ -101,7 +101,8 @@ def listening():
     LS=ListenSystem()
     while controller.online:
         if (controller.Nodeactivity==False):
-            LS.speak("...")
+            pass
+
             #LS.takeCommand()
             
             #if ("none" not in LS.query):

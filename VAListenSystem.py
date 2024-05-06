@@ -8,6 +8,8 @@ import operator
 import speech_recognition as sr
 import datetime
 import wikipedia
+import pyaudio
+import audioop
 import webbrowser
 import os
 import winshell
@@ -33,30 +35,41 @@ class ListenSystem:
         self.listening=False
         self.working=False
         self.query=""
+        self.greetings=[
+            "Hello!",
+            "Hi!",
+            "Nice to meet you!",
+            "Hey!"
+        ]
         # Might use task stack tasks self.task=[]#queue the number of task to work on string
 
-    def speak(self,audio):
+    def speak(self,audio):    
         self.engine.say(audio)
         self.engine.runAndWait()
+
         
     def takeCommand(self):
         r = sr.Recognizer()
         
         with sr.Microphone() as source:
-            #r.adjust_for_ambient_noise(source)
-            r.pause_threshold = 1
-            audio = r.listen(source)
-    
+            r.adjust_for_ambient_noise(source=source)
+            print("Listening")
+            audio = r.listen(source,timeout=5)
+        
         try:
             self.query = str(r.recognize_google(audio, language ='en-in')).lower()
+            self.response=True
     
         except Exception as e:
             print(e)
-            self.query="none"
+            self.query= "None"
+       
         
     
-    
     def intro(self):
+        self.speak(random.choice(self.greetings))
+        self.speak("What can I help you with?")
+    def time(self):
         hour = int(datetime.datetime.now().hour)
         if hour>= 0 and hour<12:
             self.speak("Good Morning!")
@@ -71,6 +84,8 @@ class ListenSystem:
         #self.speak(assname)
         #self.speak("I am your Assistant... May I assist you with anything")
     
+    def StopCopyingMe(self):
+        self.speak(self.query)
     def testStatement(self):
         self.speak("The quick brown fox jumps over the lazy dog.")
         
@@ -81,6 +96,16 @@ class ListenSystem:
         self.speak("According to Wikipedia")
         self.speak(results)
  
-
+    def process_action(self):
+        if "hi" in self.query or "hello" in self.query:
+            self.intro()            
+        elif "time" in self.query:
+            self.time()
+        elif "wikipedia" in self.query:
+            self.wikiSearch()
     
-   
+
+
+if __name__ in "__main__":
+    pass
+

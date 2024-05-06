@@ -12,8 +12,9 @@ giving this VA an Identity
 class Controller:
     def __init__(self):
         self.online=False
+        self.name="test"
         self.startidleinverval=10
-        self.endidleinterval=random.randint(100,200)
+        self.endidleinterval=random.randint(50,100)
         self.chooseIdle=0
         self.activityInterval=5
         self.activityTimer=updatetimer()
@@ -60,11 +61,11 @@ def RuninBackGrounds(win):
             controller.activityTimer=updatetimer()
             n.isidle=False
 
-        #controller.timer=updatetimer()
-        #print(int(time.time()-controller.activityTimer))
-        if (controller.activityInterval==int(time.time()-controller.activityTimer)):
-            controller.Nodeactivity=False
-            controller.activityTimer=updatetimer()
+        
+        #This piece of code set the node activity to false within the activity timer
+        #if (controller.activityInterval==int(time.time()-controller.activityTimer)):
+        #    controller.Nodeactivity=False
+        #    controller.activityTimer=updatetimer()
 
         #if (n.isAnimating==False):
         #    if (controller.isSpeaking==True and controller.counter==0):
@@ -99,23 +100,19 @@ def RuninBackGrounds(win):
 
 def listening():
     LS=ListenSystem()
-    while controller.online:
-        if (controller.Nodeactivity==False):
-            pass
+    ResponseTimeWindow=0
+    while controller.online==True:
+        LS.takeCommand()
+        if controller.name in LS.query():
+            controller.Nodeactivity=True
+            LS.intro()
+            LS.takeCommand()
+            if LS.query != "None":
+                LS.process_action()
+            else:
+                controller.Nodeactivity=False
 
-            #LS.takeCommand()
-            
-            #if ("none" not in LS.query):
-            #    LS.speak("huh?")
-            #else:
-            #   LS.testStatement()
-            #LS.testStatement() This is a testing statement
-        else:
-            if(controller.introduction==False):
-                controller.isSpeaking=True  
-                LS.intro()
-                controller.isSpeaking=False
-
+        
 def on_click(event): 
     if(controller.Nodeactivity==True):
         controller.Nodeactivity=False
@@ -155,7 +152,11 @@ if __name__ in '__main__':
     y_center =  canvas.winfo_reqheight() // 2  
     n=Node(canvas=canvas, x=x_center, y=y_center, size=30, color="#FF0000", SetColors=["#00FF00","#0000FF","#FFFF00", "#FF9F00", "#00FFEB","#6AFF00"])
     #Test Alternate functions when clicking the VA
-    win.bind("<Button-1>", on_click)
-    RuninBackGrounds(win) 
+    #win.bind("<Button-1>", on_click)
+    #ui_thread=threading.Thread(target=RuninBackGrounds, args=win)
+    #ui_thread.daemon=True
+    #ui_thread.start()
+    RuninBackGrounds(win)
     win.mainloop()
+    #background_thread.join()
     

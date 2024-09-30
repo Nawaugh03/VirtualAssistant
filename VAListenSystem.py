@@ -6,7 +6,7 @@ import json
 import random
 import operator
 import speech_recognition as sr
-import datetime
+from datetime import datetime
 import wikipedia
 import pyaudio
 import audioop
@@ -34,6 +34,7 @@ class ListenSystem:
         self.engine.setProperty('voice',self.voices[1].id)
         self.listening=False
         self.working=False
+        self.isSpeaking=False
         self.query=""
         self.greetings=[
             "Hello!",
@@ -52,13 +53,12 @@ class ListenSystem:
         r = sr.Recognizer()
         
         with sr.Microphone() as source:
+            
             r.adjust_for_ambient_noise(source=source)
-            print("Listening")
             audio = r.listen(source,timeout=5)
         
         try:
             self.query = str(r.recognize_google(audio, language ='en-in')).lower()
-            self.response=True
     
         except Exception as e:
             print(e)
@@ -70,7 +70,9 @@ class ListenSystem:
         self.speak(random.choice(self.greetings))
         self.speak("What can I help you with?")
     def time(self):
-        hour = int(datetime.datetime.now().hour)
+        now = datetime.now()
+        current_time = now.strftime("%m-%d-%Y %H:%M")
+        hour = int(now.hour)
         if hour>= 0 and hour<12:
             self.speak("Good Morning!")
     
@@ -80,6 +82,7 @@ class ListenSystem:
         else:
             self.speak("Good Evening!")  
     
+        self.speak(f"It is currently, {current_time}")
         #assname =("My name is Beta version 0.01")
         #self.speak(assname)
         #self.speak("I am your Assistant... May I assist you with anything")
@@ -108,4 +111,3 @@ class ListenSystem:
 
 if __name__ in "__main__":
     pass
-

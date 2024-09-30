@@ -13,8 +13,8 @@ class Controller:
     def __init__(self):
         self.online=False
         self.name="test"
-        self.startidleinverval=10
-        self.endidleinterval=random.randint(50,100)
+        self.startidleinverval=30
+        self.endidleinterval=random.randint(100,200)
         self.chooseIdle=0
         self.activityInterval=5
         self.activityTimer=updatetimer()
@@ -36,6 +36,7 @@ def RuninBackGrounds(win):
     #If the node is inactive the bg will fade to black and the node will do its idle animations
     controller.isAnimating=n.isAnimating
     if(controller.Nodeactivity==False):
+        """
         if controller.isAwake:
             controller.isAwake=False
             #print("sleeping")
@@ -52,7 +53,7 @@ def RuninBackGrounds(win):
         if(controller.endidleinterval==int(time.time()-controller.timer) and n.isidle):
                 n.isidle=False
                 controller.timer=updatetimer()
-
+        """
     if(controller.Nodeactivity==True):
         VAGui.changeBGcolor(canvas=n.canvas,current_color=VAGui.get_rgb_values(win,n.canvas.cget("background")) ,target_color=(255,255,255),delay=5, steps=40)
         if controller.isAwake==False:
@@ -102,15 +103,20 @@ def listening():
     LS=ListenSystem()
     ResponseTimeWindow=0
     while controller.online==True:
+        print("Waiting for name to be called")
         LS.takeCommand()
-        if controller.name in LS.query():
+        print(LS.query)
+        if controller.name in LS.query:
             controller.Nodeactivity=True
             LS.intro()
+            print("Wikipedia, time")
             LS.takeCommand()
             if LS.query != "None":
                 LS.process_action()
             else:
                 controller.Nodeactivity=False
+        if "goodbye" in LS.query:
+            controller.online=False
 
         
 def on_click(event): 

@@ -1,7 +1,5 @@
 
 import time
-
-
 import random
 #import os
 import math
@@ -332,7 +330,6 @@ def RuninBackGrounds(n):
         n.spawnNodeAnimation()
         
     #changeBGcolor(canvas=canvas,)
-    """
     if(startidleinverval==int(time.time()-timer) and n.isidle is False):
         chooseIdle = random.randint(0,4)
         #print("Starting IDle")
@@ -349,11 +346,12 @@ def RuninBackGrounds(n):
         #print(n.isidle)
         #n.isidle=False
         timer=time.time()
-    """
+
     if(startidleinverval==int(time.time()-timer)):
         n.changeBGcolor(n.canvas, get_rgb_values(win,n.canvas.cget("background")), (255,255,255),delay=5, steps=20)
         startidleinverval==0
     canvas.after(10,lambda:RuninBackGrounds(n))
+    
 if __name__ in "__main__":
     win = tk.Tk()
     win.title("Virtual Assistant")
@@ -362,7 +360,7 @@ if __name__ in "__main__":
     x_center = canvas.winfo_reqwidth() // 2
     y_center =  canvas.winfo_reqheight() // 2
     n=None
-    startidleinverval=10
+    startidleinverval=5
     endidleinterval=random.randint(50,100)
     chooseIdle=0
     timer=0

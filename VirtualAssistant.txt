@@ -51,3 +51,8 @@ Integration with External Services (Optional):
 Convolutional Neural Network
 Q-Learning
 gvnn
+
+0 - Greetings
+1- Saying goodbyes
+2 - Understand a task performance
+3 - Causal Talk

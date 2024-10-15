@@ -1,13 +1,42 @@
-Text,Label
-Hi,0
-Hello,0
+text,label
+Good afternoon,0
+Good Evening,0
 Good Morning,0
+Greetings,0
+Hello,0
+Hi,0
+Hiya,0
+Long time no see,0
+Morning,0
+Sup,0
+What's new,0
 Bye,1
-Goodbye,1
+Farewell,1
 Good Night,1
-I have a task for you,2
+Goodbye,1
+I'm leaving,1
+I'm off,1
+See ya,1
+see you later,1
+so long,1
+Until next time,1
 Can you do something for me,2
+I have a task for you,2
 I need help with something,2
-How was your day,3
+Can I borrow you for a minute,2
+I need your help,2
+Can you work on something,2
+Can you do me a favor,2
+I have a favor for you,2
+Would you mind taking this task,2
+Can you give me a hand ,2
 Are you feeling alright,3
+How was your day,3
 tell me a joke,3
+What is your name,3
+What have you been up to lately,3
+Anything that peak your interests,3
+What are you currently working on,3
+What are you looked forward to,3
+I love you,3
+Hope you are doing well today,3

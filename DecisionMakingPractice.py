@@ -1,51 +1,49 @@
 # Import libraries
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.model_selection import train_test_split
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LogisticRegression
 
-# Data (text, label)
-data = [
-    ("hello", 1),
-    ("hi", 1),
-    ("hey", 1),
-    ("greetings", 1),
-    ("good morning", 1),
-    ("how are you", 0),
-    ("what's the time", 0),
-    ("weather", 0),
-    ("bye", 0),
-    ("see you later", 0)
-]
+df= pd.read_csv("PracticeDataset.csv")
 
-# Separate input text and labels
-X = [text for text, label in data]
-y = [label for text, label in data]
+vectorizer = TfidfVectorizer(stop_words='english')  # Adding stop words removal for cleaner data
+X=vectorizer.fit_transform(df['text'])
+y=df['label']
 
-# Convert text to numeric features using Bag of Words
-vectorizer = CountVectorizer()
-X_vectorized = vectorizer.fit_transform(X)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Split data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X_vectorized, y, test_size=0.2, random_state=42)
+model =LogisticRegression()
 
-# Train a classifier (Logistic Regression in this case)
-classifier = LogisticRegression()
-classifier.fit(X_train, y_train)
+model.fit(X_train, y_train)
 
-# Function to predict if input is a greeting
-def is_greeting(text):
-    text_vectorized = vectorizer.transform([text])
-    prediction = classifier.predict(text_vectorized)
-    return prediction[0]  # 1 for greeting, 0 for non-greeting
+# Check the accuracy on the test set
+accuracy = model.score(X_test, y_test)
+print(f"Accuracy: {accuracy * 100:.2f}%")
 
-# Testing the chatbot
-while True:
-    user_input = input("You: ")
-    if user_input.lower() == "bye":
-        print("Chatbot: Goodbye!")
-        break
+#Using Cross-Validation to get More reliable performance estimate
+cv_scores=cross_val_score(model,X,y, cv=5) #5-fold cross-validation
+print(f"Cross-validation Accuracy: {cv_scores.mean()*100:.2f}%")
 
-    if is_greeting(user_input):
-        print("Chatbot: Hello! How can I help you?")
-    else:
-        print("Chatbot: I'm not sure what you're asking.")
+# Example new input
+new_input = ["ja ja ja"]
+
+# Convert the new input to the same feature space as training data
+new_input_transformed = vectorizer.transform(new_input)
+
+# Predict using the trained model
+prediction = model.predict(new_input_transformed)
+
+# Output the result
+if prediction[0] == 0:
+    print("Greetings")
+elif (prediction[0]==1):
+    print("Saying goodbye")
+elif(prediction[0]==2):
+    print("Understand a Task performance")
+elif (prediction[0]==3):
+    print("Casually talking")
+else:
+    print("Unknown imput")
+
+probas= model.predict_proba(new_input_transformed)
+print(f"Prediction confidence: {max(probas[0]) * 100:.2f}%")

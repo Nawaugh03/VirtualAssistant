@@ -291,7 +291,7 @@ Use cases:
     A.ExportFromCSV("Curriculum.csv")//Take name of file and convert the csv into the list then if the table does exist then edit the table by inserting the 
    
     Complete table->sql
-    A = DBmanager("localhost", "root", "1234")
+
     A.ExportFromCSV("Curriculums")
     A.UseDatabase("HawkDB")
     A.ImportTablestoSQL()

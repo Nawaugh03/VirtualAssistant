@@ -1,6 +1,13 @@
-from app import create_app
+from app import create_app, db
+from app.models import Task
 
-app=create_app()
+# Initialize the app
+app = create_app()
 
-if __name__== '__main__':
+# Create the tables if they don't exist
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
+if __name__ == '__main__':
     app.run(debug=True)

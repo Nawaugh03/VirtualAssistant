@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task List</h1>
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <strong>{{ task.title }}</strong> - {{ task.description }} 
+            [<a href="{{ url_for('complete_task', task_id=task.id) }}">
+                {{ 'Complete' if not task.complete else 'Undo' }}
+            </a>]
+            [<a href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>]
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Add Task</h2>
+    <form action="{{ url_for('add_task') }}" method="POST">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required>
+        <br>
+        <label for="description">Description:</label>
+        <input type="text" name="description" id="description">
+        <br>
+        <button type="submit">Add Task</button>
+    </form>
+</body>
+</html>

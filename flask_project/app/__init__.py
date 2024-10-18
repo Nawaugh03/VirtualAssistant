@@ -1,11 +1,14 @@
 from flask import Flask
-from .routes import main
+from .models import db
 
 def create_app():
-    app=Flask(__name__)
+    app = Flask(__name__)
 
-    #app.config.from_pyfile('../config.py')
-    
-    app.register_blueprint(main)
+    # Configure SQLite database URI
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    # Initialize the app with the database
+    db.init_app(app)
 
     return app

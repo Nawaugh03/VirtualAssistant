@@ -1,64 +1,20 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+def calculate_xp(level, base_xp=100, growth_factor=1.5):
+    """
+    Calculate the XP required to reach a specific level using an exponential formula.
+    
+    :param level: The target level (integer).
+    :param base_xp: The XP required to reach level 2 (default is 100).
+    :param growth_factor: The multiplier for each level (default is 1.5).
+    :return: XP required to reach the specified level.
+    """
+    if level < 1:
+        return 0  # No XP required for levels below 1
 
-# Initialize the Flask application
-app = Flask(__name__)
+    # Calculate XP required for the given level
+    xp_required = base_xp * (growth_factor ** (level - 1))
+    return xp_required
 
-# Configuring the SQLite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Initialize the database
-db = SQLAlchemy(app)
-
-# Task model (database table)
-class Task(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(200), nullable=True)
-    priority=db.Column(db.Integer, nullable=False)
-    complete = db.Column(db.Boolean, default=False)
-
-    def __repr__(self):
-        return f'<Task {self.title}>'
-
-# Create database tables
-with app.app_context():
-    db.create_all()
-
-# Route to list tasks
-@app.route('/')
-def index():
-    tasks = Task.query.all()
-    return render_template('index.html', tasks=tasks)
-
-# Route to add new tasks
-@app.route('/add', methods=['POST'])
-def add_task():
-    title = request.form.get('title')
-    description = request.form.get('description')
-    new_task = Task(title=title, description=description)
-    db.session.add(new_task)
-    db.session.commit()
-    return redirect(url_for('index'))
-
-# Route to delete tasks
-@app.route('/delete/<int:task_id>')
-def delete_task(task_id):
-    task = Task.query.get(task_id)
-    if task:
-        db.session.delete(task)
-        db.session.commit()
-    return redirect(url_for('index'))
-
-# Route to mark tasks as complete
-@app.route('/complete/<int:task_id>')
-def complete_task(task_id):
-    task = Task.query.get(task_id)
-    if task:
-        task.complete = not task.complete
-        db.session.commit()
-    return redirect(url_for('index'))
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# Example Usage
+for i in range(1, 11):  # Calculate XP for levels 1 to 10
+    xp = calculate_xp(i)
+    print(f"Level {i}: {xp:.2f} XP required")

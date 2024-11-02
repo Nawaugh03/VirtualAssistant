@@ -58,3 +58,7 @@ gvnn
 1- Saying goodbyes
 2 - Understand a task performance
 3 - Causal Talk
+
+Tasks Priority
+---------------
+What type of task priority to focus on

@@ -1,10 +1,19 @@
 class Task:
-    def __init__(self, title, desc, priority=1,urgency=1):
-        self.Title=title
-        self.Desc=desc
-        self.priority=priority
-        self.urgency=urgency
-        self.status= "Pending"
+    def __init__(self, name, description, priority=1, urgency=1):
+        self.name = name
+        self.description = description
+        self.priority = priority
+        self.urgency = urgency
+        self.status = "Pending"  # Default status is Pending
+
+    def __str__(self):
+        return (f"Task: {self.name}\n"
+                f"Description: {self.description}\n"
+                f"Priority: {self.priority}\n"
+                f"Urgency: {self.urgency}\n"
+                f"Status: {self.status}\n")
+
+
 class TaskManager:
     def __init__(self):
         self.tasks = []
@@ -57,5 +66,36 @@ class TaskManager:
         else:
             print("Invalid task index.")
 
-if __name__ in '__main__':
-    pass
+
+# Example Usage
+if __name__ == "__main__":
+    task_manager = TaskManager()
+
+    # Adding tasks
+    task_manager.add_task("Buy groceries", "Milk, Eggs, Bread, and Coffee", priority=3, urgency=2)
+    task_manager.add_task("Complete project report", "Due next week", priority=5, urgency=4)
+
+    # Viewing tasks
+    print("\nAll Tasks:")
+    task_manager.view_tasks()
+
+    # Updating a task
+    task_manager.update_task(0, name="Buy groceries and snacks", urgency=3)
+
+    # Listing pending tasks
+    print("\nPending Tasks:")
+    task_manager.list_pending_tasks()
+
+    # Marking a task as completed
+    task_manager.mark_task_completed(1)
+
+    # Viewing tasks after marking one as completed
+    print("\nAll Tasks after completion update:")
+    task_manager.view_tasks()
+
+    # Deleting a task
+    task_manager.delete_task(0)
+
+    # Viewing tasks after deletion
+    print("\nAll Tasks after deletion:")
+    task_manager.view_tasks()

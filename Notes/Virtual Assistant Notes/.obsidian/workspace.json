@@ -36,21 +36,31 @@
             }
           },
           {
-            "id": "a539095f68486f03",
+            "id": "0a69977dde098c6a",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          },
+          {
+            "id": "97970e4412e4b4bb",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Virtual Assistant.md",
+                "file": "Main Screen.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Virtual Assistant"
+              "title": "Main Screen"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -191,9 +201,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "d0213f002c49f57c",
+  "active": "97970e4412e4b4bb",
   "lastOpenFiles": [
     "Virtual Assistant.md",
+    "Main Screen.md",
     "Level Up System.md",
     "Untitled.canvas"
   ]

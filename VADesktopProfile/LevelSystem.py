@@ -30,12 +30,25 @@ class LevelSystem:
             self.Levelup()
             self.currentxp -= self.NextXPRequirement
             self.NextXPRequirement=self.NextLevelFormula()
+    
+    def AnswerQuestions(self):
+        Questions = [
+                     "How Troublesome is your quest?",
+                     "Do you have trouble focusing on your quests?",
+                     "How Rewarding is your quests?",
+                     "How long are you willing to venture your quest?",
+                     "How confident are you to complete the quests?"]
         
+        for i in range(len(Questions)):
+            print(Questions[i])
+            while True:
+                UserInput=int(input())
+                if UserInput >=1 and UserInput<=10:
+                    self.QuizScore[i]=UserInput
+                    break
     def diffChanges(self):
         return (self.QuizScore[0]*0.25 + self.QuizScore[1]*0.3 + self.QuizScore[2]*0.28 + self.QuizScore[3]*0.1 + self.QuizScore[4]*0.17)
 
 if __name__ == '__main__':
     a=LevelSystem()
-    print(a.CurrentLevel)
-
     

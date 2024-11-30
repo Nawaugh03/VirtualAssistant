@@ -1,0 +1,1 @@
+This is a Rag Tutorial that will report any financial answers based on pdf books 
